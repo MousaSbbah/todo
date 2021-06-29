@@ -4,7 +4,6 @@ import TodoList from './list.js';
 import { Badge, Row, Col, Container, Spinner, Form } from 'react-bootstrap';
 import useAjax from './hooks/useAjax';
 // import './todo.scss';
-const todoAPI = 'https://api-js401.herokuapp.com/api/v1/todo';
 
 const ToDo = () => {
   const [FormID, setShowForm] = useState('');
@@ -30,9 +29,10 @@ const ToDo = () => {
     if(e.target.assignee.value) data.assignee=e.target.assignee.value;
     if(e.target.due.value) data.due=e.target.due.value;
     updateItem(FormID,data)
+    setShowForm('');
     
   };
-
+  useEffect(_getTodoItems,[])
   return (
     <Container>
       <Row>

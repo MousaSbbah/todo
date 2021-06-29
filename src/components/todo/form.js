@@ -1,11 +1,10 @@
-import React ,{useState,useEffect} from 'react';
+import React  from 'react';
 import {Form} from 'react-bootstrap'
 import useFrom from './hooks/useForm'
 
 
 function TodoForm(props) {
-  const [items,setItem] = useState({});
-  const [handleSubmit, handleInputChange, values] = useFrom(cb);
+  const [handleSubmit, handleInputChange] = useFrom(cb);
 
   function cb(data) {
       props.handleSubmit(data);

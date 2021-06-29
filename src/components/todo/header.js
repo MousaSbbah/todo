@@ -1,7 +1,6 @@
-'use strict';
 
 import React from 'react'
-import {Badge,Row,Col,Container,Nav,Navbar} from 'react-bootstrap'
+import {Nav,Navbar} from 'react-bootstrap'
 
 
 const Header = () => {

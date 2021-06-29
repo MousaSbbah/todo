@@ -1,6 +1,5 @@
-'use strict';
 
-import React ,{useEffect,useState} from 'react'
+import {useEffect,useState} from 'react'
 const todoAPI = 'https://api-js401.herokuapp.com/api/v1/todo';
 const useAjax = ( cb) => {
     const [list, setList] = useState([]);
