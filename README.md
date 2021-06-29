@@ -37,7 +37,7 @@ npm start
 
 ### Deployment <a name = "Deployment"></a>
 
-#### **Netlify** link: 
+#### **Netlify** link:  https://elastic-ptolemy-3ab499.netlify.app
 
 
 
