@@ -1,95 +1,116 @@
 import React, { useEffect, useState } from 'react';
 import TodoForm from './form.js';
 import TodoList from './list.js';
-
-import './todo.scss';
+import { Badge, Row, Col, Container, Spinner, Form } from 'react-bootstrap';
+import useAjax from './hooks/useAjax';
+// import './todo.scss';
 const todoAPI = 'https://api-js401.herokuapp.com/api/v1/todo';
-
-
-
-
-const todoAPI = 'https://api-js401.herokuapp.com/api/v1/todo';
-
 
 const ToDo = () => {
-
-  const [list, setList] = useState([]);
-
-  const _addItem = (item) => {
-    item.due = new Date();
-    fetch(todoAPI, {
-      method: 'post',
-      mode: 'cors',
-      cache: 'no-cache',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
-    })
-      .then(response => response.json())
-      .then(savedItem => {
-        setList([...list, savedItem])
-      })
-      .catch(console.error);
+  const [FormID, setShowForm] = useState('');
+  const [
+    _addItem,
+    removeItem,
+    updateItem,
+    _toggleComplete,
+    _getTodoItems,
+    loading,
+    list,
+  ] = useAjax();
+  console.log(loading);
+  function showForm(id) {
+    console.log('hi', id);
+    FormID ? setShowForm('') : setShowForm(id);
+  }
+  const update = (e) => {
+    e.preventDefault();
+    const data = {};
+    if(e.target.text.value) data.text=e.target.text.value;
+    if(e.target.difficulty.value) data.difficulty=e.target.difficulty.value;
+    if(e.target.assignee.value) data.assignee=e.target.assignee.value;
+    if(e.target.due.value) data.due=e.target.due.value;
+    updateItem(FormID,data)
+    
   };
-
-  const _toggleComplete = id => {
-
-    let item = list.filter(i => i._id === id)[0] || {};
-
-    if (item._id) {
-
-      item.complete = !item.complete;
-
-      let url = `${todoAPI}/${id}`;
-
-      fetch(url, {
-        method: 'put',
-        mode: 'cors',
-        cache: 'no-cache',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(item)
-      })
-        .then(response => response.json())
-        .then(savedItem => {
-          setList(list.map(listItem => listItem._id === item._id ? savedItem : listItem));
-        })
-        .catch(console.error);
-    }
-  };
-
-  const _getTodoItems = () => {
-    fetch(todoAPI, {
-      method: 'get',
-      mode: 'cors',
-    })
-      .then(data => data.json())
-      .then(data => setList(data.results))
-      .catch(console.error);
-  };
-
-  useEffect(_getTodoItems, []);
 
   return (
-    <>
-      <header>
-        <h2>
-          There are {list.filter(item => !item.complete).length} Items To Complete
-        </h2>
-      </header>
+    <Container>
+      <Row>
+        <header>
+          <h2>
+            Items To Complete{' '}
+            <Badge variate="secondary">
+              {list.filter((item) => !item.complete).length}
+            </Badge>
+          </h2>
+        </header>
+      </Row>
 
-      <section className="todo">
-
-        <div>
+      <Row>
+        <Col>
           <TodoForm handleSubmit={_addItem} />
-        </div>
+        </Col>
 
-        <div>
-          <TodoList
-            list={list}
-            handleComplete={_toggleComplete}
-          />
-        </div>
-      </section>
-    </>
+        <Col>
+          {loading ? (
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden"></span>
+            </Spinner>
+          ) : (
+            <TodoList
+              list={list}
+              handleComplete={_toggleComplete}
+              deleteHandle={removeItem}
+              updateHandle={showForm}
+            />
+          )}
+        </Col>
+        <Col style={FormID ? { display: 'block' } : { display: 'none' }}>
+          <h1>Update</h1>
+          <p>Fill new data</p>
+          <Form display="block" onSubmit={update}>
+            <Form.Group>
+              <Form.Label>
+                To Do Item
+                <Form.Control
+                  name="text"
+                  placeholder="Add To Do List Item"
+                />
+              </Form.Label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>
+                Difficulty Rating
+                <Form.Control
+                  type="range"
+                  min="1"
+                  max="5"
+                  name="difficulty"
+                />
+              </Form.Label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>
+                Assigned To
+                <Form.Control
+                  type="text"
+                  name="assignee"
+                  placeholder="Assigned To"
+                />
+              </Form.Label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>
+                <span>Due Date</span>
+                <Form.Control type="date" name="due" />
+              </Form.Label>
+            </Form.Group>
+
+            <input type='submit' value='Update Item' />
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

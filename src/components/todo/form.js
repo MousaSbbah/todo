@@ -1,45 +1,57 @@
 import React ,{useState,useEffect} from 'react';
+import {Form} from 'react-bootstrap'
+import useFrom from './hooks/useForm'
 
 
 function TodoForm(props) {
   const [items,setItem] = useState({});
-  const handleInputChange = e => {
-    setItem( {...items, [e.target.name]: e.target.value } );
-  };
+  const [handleSubmit, handleInputChange, values] = useFrom(cb);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    e.target.reset();
-    props.handleSubmit(items);
-    const item = {};
-    setItem({item});
-  };
+  function cb(data) {
+      props.handleSubmit(data);
+  }
+  
   return (
     <div>
               <h3>Add Item</h3>
-        <form  onSubmit={handleSubmit}>
-          <label>
-            <span>To Do Item</span>
-            <input
+        <Form display='block'  onSubmit={handleSubmit}>
+          <Form.Group>
+          <Form.Label>
+            To Do Item
+            <Form.Control
               name="text"
               placeholder="Add To Do List Item"
               onChange={handleInputChange}
               required/>
-          </label>
-          <label>
-            <span>Difficulty Rating</span>
-            <input defaultValue="1"  type="range" min="1" max="5" name="difficulty" onChange={handleInputChange}  required/>
-          </label>
-          <label>
-            <span>Assigned To</span>
-            <input type="text" name="assignee" placeholder="Assigned To" onChange={handleInputChange}  required/>
-          </label>
-          <label>
+            </Form.Label>
+          </Form.Group>
+          <Form.Group>
+          <Form.Label>
+            Difficulty Rating
+            <Form.Control defaultValue="1"  type="range" min="1" max="5" name="difficulty" onChange={handleInputChange}  required/>
+          </Form.Label>
+
+          </Form.Group>
+          <Form.Group>
+          <Form.Label>
+            Assigned To
+            <Form.Control type='text' name="assignee" placeholder="Assigned To" onChange={handleInputChange}  required/>
+          </Form.Label>
+
+          </Form.Group>
+          <Form.Group>
+          <Form.Label>
             <span>Due Date</span>
-            <input type="date" name="date"  onChange={handleInputChange} required/>
-          </label>
+            <Form.Control type="date" name="due"  onChange={handleInputChange} required/>
+          </Form.Label>
+
+          </Form.Group>
+
+          
+
+
           <button>Add Item</button>
-        </form>     
+        </Form>     
     </div>
   )
 }

@@ -1,13 +1,19 @@
 import React from 'react';
+import ToDo from './components/todo/todo-connected.js';
+import Header from './components/todo/header.js';
 
-import ToDo from './components/todo/todo.js';
+const App = () => {
+  return (
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <>
-        <ToDo />
-      </>
-    );
-  }
+
+    <div>
+      <Header />
+       <ToDo />
+    </div>
+  )
 }
+
+export default App
+
+
+
