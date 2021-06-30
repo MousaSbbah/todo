@@ -3,6 +3,8 @@ import TodoForm from './form.js';
 import TodoList from './list.js';
 import { Badge, Row, Col, Container, Spinner, Form} from 'react-bootstrap';
 import useAjax from './hooks/useAjax';
+import Auth from './auth';
+
 // import './todo.scss';
 
 const ToDo = () => {
@@ -34,11 +36,12 @@ const ToDo = () => {
   };
   useEffect(_getTodoItems,[])
   return (
-    
+    <>
+    <Auth capability='read'>
     <Container>
 
       <Row>
-        <header style={{'text-align':'center','margin-bottom':'20px'}}>
+        <header style={{'textAlign':'center','marginBottom':'20px'}}>
           <h2>
             Items To Complete{' '}
             <Badge bg="secondary">
@@ -48,16 +51,17 @@ const ToDo = () => {
         </header>
 
       </Row>
-
       <Row>
+        <Auth capability='create'>
+
         <Col>
           <TodoForm handleSubmit={_addItem} />
         </Col>
+        </Auth>
 
         <Col>
           {loading ? (
             <Spinner animation="border" role="status">
-              <span className="visually-hidden"></span>
             </Spinner>
           ) : (
             <TodoList
@@ -106,8 +110,11 @@ const ToDo = () => {
           </Form>
         </Col>
       </Row>
-    </Container>
 
+    </Container>
+    </Auth>
+    
+    </>
   );
 };
 
