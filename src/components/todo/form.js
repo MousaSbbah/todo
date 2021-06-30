@@ -27,7 +27,7 @@ function TodoForm(props) {
           <Form.Group>
           <Form.Label>
             Difficulty Rating
-            <Form.Control defaultValue="1"  type="range" min="1" max="5" name="difficulty" onChange={handleInputChange}  required/>
+            <Form.Range defaultValue="1"  type="range" min="1" max="5" name="difficulty" onChange={handleInputChange}  required/>
           </Form.Label>
 
           </Form.Group>
@@ -38,13 +38,7 @@ function TodoForm(props) {
           </Form.Label>
 
           </Form.Group>
-          <Form.Group>
-          <Form.Label>
-            <span>Due Date</span>
-            <Form.Control type="date" name="due"  onChange={handleInputChange} required/>
-          </Form.Label>
 
-          </Form.Group>
 
           
 
