@@ -3,8 +3,6 @@ import cookie from 'react-cookies';
 import jwt from 'jsonwebtoken';
 
 const API = process.env.REACT_APP_API || 'nope';
-console.log('🚀 ~ file: aurth.jsx ~ line 6 ~ API', API);
-
 export const LoginContext = React.createContext();
 
 export const LoginProvider = (props) => {
@@ -15,7 +13,7 @@ export const LoginProvider = (props) => {
   useEffect(() => {
     const cookieToken = cookie.load('auth');
     validateToken(cookieToken);
-  }, [loggedIn, setLoggedIn]);
+  },[]);
 
   const login = (username, password) => {
     fetch(`${API}/signin`, {

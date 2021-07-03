@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Offcanvas } from 'react-bootstrap';
-import Login from './login';
+import SignUp from './signup';
 
 function SigninOffCanvas({ name, ...props }) {
   const [show, setShow] = useState(false);
@@ -18,7 +18,7 @@ function SigninOffCanvas({ name, ...props }) {
           <Offcanvas.Title>Sign In</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-            <Login />
+            <SignUp />
         </Offcanvas.Body>
       </Offcanvas>
     </>

@@ -1,52 +1,52 @@
-import React from 'react';
+import React,{useState,useContext} from 'react';
 import { LoginContext } from './context/aurth';
+import { Form ,Button } from 'react-bootstrap';
 
 const If = props => {
   return props.condition ? props.children : null;
 };
 
-class Login extends React.Component {
-  static contextType = LoginContext;
 
-  constructor(props) {
-    super(props);
-    this.state = { username: '', password: '' };
-  }
+export const Login = (props) => {
+    const authContext = useContext(LoginContext); 
+    const [username,setName]=useState('')
+    const [password,setPassword]=useState('')
 
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+  const handleChange = e => {
+    if(e.target.name === 'username') setName( e.target.value);
+    if(e.target.name === 'password') setPassword( e.target.value);
   };
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    this.context.login(this.state.username, this.state.password);
+    authContext.login(username, password);
   };
 
-  render() {
-    return (
-      <>
-        <If condition={this.context.loggedIn}>
-          <button onClick={this.context.logout}>Log Out</button>
+  return (
+    <div>
+       <If condition={authContext.loggedIn}>
+          <button onClick={authContext.logout}>Log Out</button>
         </If>
 
-        <If condition={!this.context.loggedIn}>
-          <form onSubmit={this.handleSubmit}>
-            <input
+        <If condition={!authContext.loggedIn}>
+          <Form onSubmit={handleSubmit}>
+            <Form.Control
               placeholder="UserName"
               name="username"
-              onChange={this.handleChange}
+              type='text'
+              onChange={handleChange}
             />
-            <input
+            <Form.Control
               placeholder="password"
+              type='password'
               name="password"
-              onChange={this.handleChange}
+              onChange={handleChange}
             />
-            <button>Login</button>
-          </form>
+            <Button type='submit'>Login</Button>
+          </Form>
         </If>
-      </>
-    );
-  }
+    </div>
+  )
 }
 
 export default Login;

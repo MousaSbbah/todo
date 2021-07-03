@@ -1,9 +1,7 @@
 import React from 'react';
 import { LoginContext } from './context/aurth';
+import { Form ,Button } from 'react-bootstrap';
 
-const If = props => {
-  return props.condition ? props.children : null;
-};
 
 class SignUp extends React.Component {
   static contextType = LoginContext;
@@ -27,20 +25,20 @@ class SignUp extends React.Component {
       <>
 
 
-        <If condition={!this.context.loggedIn}>
-          <form onSubmit={this.handleSubmit}>
-            <input
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Control
               placeholder="UserName"
               name="username"
+              type='text'
               onChange={this.handleChange}
             />
-            <input
+            <Form.Control
               type="email"
               placeholder="example@foo.com"
               name="email"
               onChange={this.handleChange}
             />
-            <input
+            <Form.Control
               type="password"
               placeholder="password"
               name="password"
@@ -48,9 +46,9 @@ class SignUp extends React.Component {
             />
 
             
-            <button>Sign Up</button>
-          </form>
-        </If>
+            <Button type='submit'>Sign Up</Button>
+          </Form>
+        
       </>
     );
   }
