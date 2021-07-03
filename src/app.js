@@ -1,19 +1,22 @@
 import React from 'react';
 import ToDo from './components/todo/todo-connected.js';
-import Header from './components/todo/header.js';
+import Headers from './components/todo/header.js';
 import SettingsContext  from './components/todo/context/setting';
+import LoginContext from './components/todo/context/aurth';
 
 
 const App = () => {
   return (
 
     
-    <div>
+        <>
       <SettingsContext>
-      <Header />
+      <LoginContext>
+      <Headers />
        <ToDo />
+      </LoginContext>
       </SettingsContext>
-    </div>
+       </>
   )
 }
 

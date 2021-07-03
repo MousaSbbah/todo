@@ -1,22 +1,36 @@
+import React, { useContext } from 'react';
+import { Container, Navbar,Button } from 'react-bootstrap';
+import SettingOffCanvas from './settingCanvas';
+import SigninOffCanvas from './signinCanvas';
+import SignupOffCanvas from './signupCanvas';
+import {LoginContext} from './context/aurth';
+const If = props => {
+  return props.condition ? props.children : null;
+};
+const Headers = () => {
+  const authContext = useContext(LoginContext);
 
-import React from 'react'
-import {Nav,Navbar} from 'react-bootstrap'
-import SettingOffCanvas from './settingCanvas'
+  return (
+<Navbar bg='primary' variant='dark' >
+  <Container>
+  <Navbar.Brand style={{cursor:'pointer'}}><SettingOffCanvas  name='Setting'/></Navbar.Brand>
+    <Navbar.Brand href="/">Home</Navbar.Brand>
+    <If condition={!authContext.loggedIn}>
+    <Navbar.Brand   className="justify-content-end" style={{cursor:'pointer'}}>
+       <SigninOffCanvas  placement='end' name='SignIn'/>
+    </Navbar.Brand>
+    <Navbar.Brand  className="justify-content-end" style={{cursor:'pointer'}}>
+       <SignupOffCanvas placement='end' name='SignUp'/>
+       </Navbar.Brand>
+    </If>
+    <If condition={authContext.loggedIn}>
+    <Navbar.Brand  className="justify-content-end" >
+      <Button variant='danger' onClick={authContext.logout}>Logout</Button>
+         </Navbar.Brand>
+    </If>
+  </Container>
+</Navbar>
+  );
+};
 
-
-const Header = () => {
-    return (
-        <Navbar style={{'font-size':'30px' , 'weight':'bold',padding:'20px','margin-bottom':'30px',cursor:'pointer'}} bg='primary' >
-        <Nav.Link to='/' style={{'text-decoration':'none','margin-right': '30px','color':'black'}} href="/">
-           <div>Todo</div>
-            </Nav.Link>
-
-          <Nav.Item >
-          <SettingOffCanvas name="Setting"/>
-          </Nav.Item>
-          </Navbar>
-    )
-}
-
-export default Header
-
+export default Headers;
